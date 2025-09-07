@@ -6,6 +6,10 @@ import LinkForm from "./components/LinkForm";
 import ShortLink from "./components/ShortLink";
 import "./styles.css";
 
+// Use .env variable or fallback to Render URL
+const API_BASE =
+  process.env.REACT_APP_API_URL || "https://shortener-url-2.onrender.com";
+
 function App() {
   const [links, setLinks] = useState([]);
 
@@ -20,14 +24,15 @@ function App() {
 
   const handleShorten = async (url, timeLimit) => {
     try {
-      const response = await fetch("https://shortener-url-2.onrender.com", {
+      const response = await fetch(`${API_BASE}/api/shorten`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, timeLimit: Number(timeLimit) }),
       });
-      if (!response.ok) throw new Error("Failed to shorten");
-      const data = await response.json();
 
+      if (!response.ok) throw new Error("Failed to shorten");
+
+      const data = await response.json();
       setLinks((prev) => [data.shortUrl, ...prev].slice(0, 5));
 
       return data.shortUrl;
