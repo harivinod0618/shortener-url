@@ -20,7 +20,7 @@ function App() {
 
   const handleShorten = async (url, timeLimit) => {
     try {
-      const response = await fetch("http://localhost:5000/api/shorten", {
+      const response = await fetch("https://shortener-url-2.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, timeLimit: Number(timeLimit) }),
